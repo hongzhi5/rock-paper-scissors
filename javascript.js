@@ -1,3 +1,18 @@
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', playRound));
+
+const resultsBox  = document.querySelector('#resultsBox');
+const playAgain = document.querySelector('.playAgain');
+
+const yourScoreText = document.createElement('div');
+resultsBox.appendChild(yourScoreText);
+
+const computerScoreText = document.createElement('div');
+resultsBox.appendChild(computerScoreText);
+
+const roundResultNotice = document.createElement('div');
+resultsBox.appendChild(roundResultNotice);
+
 // a function called that will randomly return 
 // either ‘Rock’, ‘Paper’ or ‘Scissors’. 
 function getComputerChoice() {
@@ -11,40 +26,70 @@ function getComputerChoice() {
     return randomText;
 }
 
-function game() {
-    var yourScore = 0;
-    var computerScore = 0;
-    let i = 0;
-    while (i < 5) {
-        function playRound(playerSelection, computerSelection) {
-            var playerSelection = prompt("Please enter your choice:");
-            var computerSelection = getComputerChoice();
-            
-            if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
-                alert("You tied!");
-            } else if (playerSelection.toLowerCase() === "rock" && computerSelection.toLowerCase() === "paper") {
-                alert("You Lose! Paper beats Rock");
-                computerScore += 1;
-            } else if (playerSelection.toLowerCase() === "paper" && computerSelection.toLowerCase() === "scissors") {
-                alert("You Lose! Scissors beats Paper");
-                computerScore += 1;
-            } else if (playerSelection.toLowerCase() === "scissors" && computerSelection.toLowerCase() === "rock") {
-                alert("You Lose! Rock beats Scissors");
-                computerScore += 1;
-            } else {
-                alert ("You win!");
-                yourScore += 1;
-            }
-        }
-        playRound();
-        i++;
-    }
-    if(yourScore === computerScore) {
-        console.log("This is a tie game!");
-    } else if(yourScore > computerScore) {
-        console.log("Look at you! You win!");
+var yourScore = 0;
+var computerScore = 0;
+let roundResult = "";
+function playRound(e) {
+    var playerSelection = e.target.value;
+    var computerSelection = getComputerChoice();
+    
+
+    if (playerSelection === computerSelection) {
+        roundResult = "You tied!";
+    } else if (playerSelection === "Rock" && computerSelection === "Paper") {
+        computerScore += 1;
+        roundResult = "You Lose! Paper beats Rock";
+    } else if (playerSelection === "Paper" && computerSelection === "Scissors") {
+        computerScore += 1;
+        roundResult = "You Lose! Scissors beats Paper";
+    } else if (playerSelection === "Scissors" && computerSelection === "Rock") {
+        computerScore += 1;
+        roundResult = "You Lose! Rock beats Scissors";
     } else {
-        console.log("Whoops.")
+        yourScore += 1;
+        roundResult = "You won!";
     }
-    console.log("You scored " + yourScore + "." + " Computer scored " + computerScore + ".");
+    updateResults();
+    updateScoreText();
+
+}
+function updateScoreText() {
+    yourScoreText.textContent = `You: ${yourScore}`;
+    computerScoreText.textContent = `Computer: ${computerScore}`;
+    roundResultNotice.textContent = `${roundResult}`;
+  }
+function updateResults() {
+
+    let fiveRoundResult = "";
+
+    if(yourScore === 5 || computerScore === 5){
+        if(yourScore === computerScore) {
+            fiveRoundResult = "This is a tie game!";
+        } else if(yourScore > computerScore) {
+            fiveRoundResult = "Look at you! You won!";
+        } else {
+            fiveRoundResult = "No way! Let's try it again.";
+        }
+
+        resultsBox.removeChild(roundResultNotice);
+
+        const finalResultText = document.createElement('div');
+        finalResultText.textContent = fiveRoundResult;
+        resultsBox.appendChild(finalResultText);
+
+        const finalScoreText = document.createElement('div');
+        finalScoreText.textContent = "You scored " + yourScore + "." + " Computer scored " + computerScore + ".";
+        resultsBox.appendChild(finalScoreText);
+
+        buttons.forEach(button => button.removeEventListener('click', playRound));
+        
+        const playAgainButton = document.createElement('button');
+        playAgainButton.classList.add('playAgainButton');
+        playAgainButton.textContent = "Play Again";
+        function reloadPage() {
+            location.reload();
+        }
+        playAgain.appendChild(playAgainButton);
+        playAgainButton.addEventListener('click', reloadPage);
+    }
 }

@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'cheri';
+    src: url('./font/cheri.liney.ttf');
+}
+@font-face {
+    font-family: 'cheriBlack';
+    src: url('./font/cheri.regular.ttf');
+}
+body {
+    background-color: pink;
+}
+.title {
+    display: flex;
+    justify-content: center;
+    font-family: 'cheri';
+    font-size: 50px;
+    margin: 20px;
+}
+.rule {
+    display: flex;
+    justify-content: center;
+    font-family: 'cheri';
+}
+.playAgainButton{
+    font-family: 'cheriBlack';
+    font-size: 25px;
+    box-shadow: 0 6px #ec4899;
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 8px;
+}
+.playAgainButton:hover{
+    background-color: white;
+    box-shadow: 0 4px #ec4899;
+    top: 2px;
+}
+.playAgain {
+    display: flex;
+    justify-content: center;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+.choice {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    font-size: 100px;
+    border: none;
+    background: none;
+    margin: 20px;
+}
+.results {
+    display: flex;
+    justify-content: center;
+    font-family: 'cheriBlack';
+    margin: 40px;
+}
